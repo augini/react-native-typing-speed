@@ -9,10 +9,19 @@ type BlinkState = {
   isShowingText: boolean;
 };
 
+type StudentState = {
+  firstName: string;
+  lastName: string;
+  age: number;
+  school?: string;
+}
+
 const Blink = ({ text }: BlinkProps) => {
   const [isShowingText, setIsShowingText] = useState(true) // state's type is inferred to be boolean
   // with other types it is helpful to explicitly specify the state's type
-  // const [isShowingText, setIsShowingText] = useState<BlinkState>({ isShowingText: true})
+  const [student, setStudent] = useState<StudentState>({ firstName: "John", lastName: "Doe", age: 24 })
+  const [input, setInput] = useState<string>("")
+
   useEffect(() => {
     let interval = setInterval(() => (
       setIsShowingText(previousState => !previousState)

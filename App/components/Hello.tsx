@@ -7,7 +7,7 @@ export interface HelloProps {
 }
 
 const Hello = ({ users }: HelloProps) => {
-  let myName: string = "Farrukh"
+  let myName: string = "Student"
 
   return (
     <View>
