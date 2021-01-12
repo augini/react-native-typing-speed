@@ -14,7 +14,9 @@
     "@types/react-native": "^0.63.45",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-countdown-circle-timer": "^2.3.11",
     "react-native-storybook-loader": "^2.0.2",
+    "react-native-svg": "^12.1.0",
     "react-native-typescript-transformer": "^1.2.13"
   },
   "devDependencies": {
