@@ -1,4 +1,4 @@
-export { default } from "../storybook";
+export {default} from '../storybook';
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
