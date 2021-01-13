@@ -55,6 +55,8 @@ const App = () => {
   );
 };
 
+export default App;
+
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
@@ -93,5 +95,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-export default App;
