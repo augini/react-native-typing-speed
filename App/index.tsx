@@ -26,6 +26,14 @@ export interface User {
   name: string;
   city: string;
 }
+// screen
+import TypingTestScreen from './screens/TypingTestScreen';
+
+export interface User {
+  id: string;
+  name: string;
+  city: string;
+}
 
 let users: User[] = [
   {id: '2134', name: 'user 1', city: 'Tokyo'},
@@ -36,14 +44,13 @@ let users: User[] = [
 const App = () => {
   return (
     <>
-      <Screen>
-        <StatusBar barStyle="dark-content" hidden />
-        <SafeAreaView>
-          <FetchExample isLoading={true} />
-          <Hello users={users} />
-          {/* <Blink text="Blink Text Input" /> */}
-        </SafeAreaView>
-      </Screen>
+      <StatusBar barStyle="dark-content" hidden />
+      <SafeAreaView>
+        <TypingTestScreen />
+        {/* <FetchExample isLoading={true} />
+        <Hello users={users} />
+        <Blink text="Blink Text Input" /> */}
+      </SafeAreaView>
     </>
   );
 };
