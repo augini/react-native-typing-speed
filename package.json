@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/react": "^17.0.0",
     "@types/react-native": "^0.63.45",
+    "random-words": "^1.1.1",
     "react": "16.13.1",
     "react-native": "0.63.4",
     "react-native-countdown-circle-timer": "^2.3.11",

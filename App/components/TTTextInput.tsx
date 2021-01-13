@@ -5,19 +5,25 @@ interface textInputProps {
   numberOfLines?: number,
   placeholder: string,
   autoFocus?: boolean,
+  onChangeText: (text: string) => any,
+  onSubmitEditing: any,
+  inputValue: string,
 }
 
-const TTTextInput: React.FC<textInputProps>= ({ numberOfLines=1, placeholder, autoFocus }) => {
-  if(numberOfLines == 1) {
-    return (
-      <View style={{ borderWidth: 1, borderColor: 'black' }}>
-        <TextInput autoFocus={ autoFocus } numberOfLines={ numberOfLines } placeholder={ placeholder } />
-      </View>
-    )
-  }
+const TTTextInput: React.FC<textInputProps> = ({ numberOfLines = 1, placeholder, autoFocus, onChangeText, onSubmitEditing, inputValue }) => {
   return (
-    <View style={ styles.container }>
-      <TextInput  numberOfLines={ numberOfLines } placeholder={ placeholder } />
+    <View style={{ borderWidth: 1, borderColor: 'black' }}>
+      <TextInput
+        autoFocus={autoFocus}
+        numberOfLines={numberOfLines}
+        placeholder={placeholder}
+        // returnKeyType="next"
+        autoCorrect={false}
+        autoCapitalize='none'
+        onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
+        value={inputValue}
+      />
     </View>
   )
 }
