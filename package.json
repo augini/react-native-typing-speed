@@ -14,6 +14,7 @@
     "@types/react-native": "^0.63.45",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "react-native-chart-kit": "^6.10.0",
     "react-native-storybook-loader": "^2.0.2",
     "react-native-typescript-transformer": "^1.2.13"
   },

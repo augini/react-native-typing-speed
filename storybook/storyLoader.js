@@ -5,11 +5,9 @@
 
 function loadStories() {
   require('../App/stories/Button.stories');
+  require('../App/stories/AppText.stories');
 }
-
-const stories = ['../App/stories/Button.stories'];
 
 module.exports = {
   loadStories,
-  stories,
 };
