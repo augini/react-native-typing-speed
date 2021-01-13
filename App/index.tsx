@@ -16,30 +16,9 @@ import {
   StatusBar,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import Blink from './components/Blink';
-import Hello from './components/Hello';
-import FetchExample from './components/Networking';
-import Screen from './components/Screen';
 
-export interface User {
-  id: string;
-  name: string;
-  city: string;
-}
 // screen
 import TypingTestScreen from './screens/TypingTestScreen';
-
-export interface User {
-  id: string;
-  name: string;
-  city: string;
-}
-
-let users: User[] = [
-  {id: '2134', name: 'user 1', city: 'Tokyo'},
-  {id: '434', name: 'user 2', city: 'Seoul'},
-  {id: '434fs', name: 'user 3', city: 'Incheon'},
-];
 
 const App = () => {
   return (
@@ -47,9 +26,6 @@ const App = () => {
       <StatusBar barStyle="dark-content" hidden />
       <SafeAreaView>
         <TypingTestScreen />
-        {/* <FetchExample isLoading={true} />
-        <Hello users={users} />
-        <Blink text="Blink Text Input" /> */}
       </SafeAreaView>
     </>
   );
