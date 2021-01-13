@@ -2,7 +2,13 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import colors from '../config/colors';
 
-export const Button = ({
+interface Props {
+  onPress?: any;
+  children?: string | number | {};
+  outline?: boolean;
+}
+
+export const Button: React.FC<Props> = ({
   onPress = () => { },
   children = '',
   outline = false,
@@ -30,6 +36,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.primary,
     marginVertical: 7,
+    width: '80%'
   },
   containerOutline: {
     backgroundColor: 'transparent',
