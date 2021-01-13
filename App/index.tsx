@@ -19,6 +19,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Blink from './components/Blink';
 import Hello from './components/Hello';
 import FetchExample from './components/Networking'
+import CustomTestScreen from './screens/CustomTestScreen';
 
 // screen
 import TypingTestScreen from './screens/TypingTestScreen'
@@ -38,13 +39,8 @@ let users: User[] = [
 const App = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" hidden />
-      <SafeAreaView>
-          <TypingTestScreen />
-        {/* <FetchExample isLoading={true} />
-        <Hello users={users} />
-        <Blink text="Blink Text Input" /> */}
-      </SafeAreaView>
+        <CustomTestScreen />
+      
     </>
   );
 };
