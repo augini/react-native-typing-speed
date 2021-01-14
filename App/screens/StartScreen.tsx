@@ -42,7 +42,10 @@ const StartScreen: React.FC<StartProps> = ({navigation}) => {
       <Button onPress={() => navigation.navigate('Test')}>Start Test!</Button>
       <Button onPress={handleDifficulty}>Difficulty: {difficultyText}</Button>
       <Button onPress={handleTestTime}>Time: {testTime} seconds</Button>
-      <Button>History</Button>
+      <Button onPress={() => navigation.navigate('Result')}>History</Button>
+      <Button onPress={() => navigation.navigate('CustomText')}>
+        Custom Input
+      </Button>
     </View>
   );
 };

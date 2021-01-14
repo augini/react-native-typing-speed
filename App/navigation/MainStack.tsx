@@ -7,6 +7,9 @@ import {
 } from '@react-navigation/stack';
 import StartScreen from '../screens/StartScreen';
 import TypingTestScreen from '../screens/TypingTestScreen';
+import CustomTestScreen from '../screens/CustomTestScreen';
+import ResultScreen from '../screens/ResultScreen';
+
 const Stack = createStackNavigator();
 
 const MainStack = () => {
@@ -21,9 +24,26 @@ const MainStack = () => {
             cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
           }}
         />
+
         <Stack.Screen
           name="Test"
           component={TypingTestScreen}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+
+        <Stack.Screen
+          name="Result"
+          component={ResultScreen}
+          options={{
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+
+        <Stack.Screen
+          name="CustomText"
+          component={CustomTestScreen}
           options={{
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
