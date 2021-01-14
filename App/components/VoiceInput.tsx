@@ -22,15 +22,15 @@ const VoiceInput = () => {
   const [started, setStarted] = useState('');
   const [results, setResults] = useState([]) as any;
   const [partialResults, setPartialResults] = useState([]) as any;
-
+  const [textSegments, setTextSegments] = useState([]) as any;
 
   Voice.onSpeechStart = (e: any) => {
-    console.log('onSpeechStart: ', e);
-    setStarted('√');
+    // console.log('onSpeechStart: ', e);
+    // setStarted('√');
   };
 
   Voice.onSpeechRecognized = (e: SpeechRecognizedEvent) => {
-    console.log('onSpeechRecognized: ', e);
+    // console.log('onSpeechRecognized: ', e);
     setRecognized('√');
   };
 
@@ -41,17 +41,24 @@ const VoiceInput = () => {
 //   };
 
   Voice.onSpeechError = (e: SpeechErrorEvent) => {
-    console.log('onSpeechError: ', e);
+    // console.log('onSpeechError: ', e);
     setError(JSON.stringify(e.error));
   };
 
   Voice.onSpeechResults = (e: SpeechResultsEvent) => {
-    console.log('onSpeechResults: ', e);
+    // console.log('onSpeechResults: ', e);
+    console.log('STARTING:')
+    setStarted('');
     setResults(e.value);
+    // console.log('results:', results);
+    if (e && e.value && e.value[0]) {
+      setTextSegments((textSegments : any) => [...textSegments, e.value![0]]);
+    }
   };
 
   Voice.onSpeechPartialResults = (e: SpeechResultsEvent) => {
-    console.log('onSpeechPartialResults: ', e);
+    setStarted('√');
+    // console.log('onSpeechPartialResults: ', e);
     setPartialResults(e.value);
   };
 
@@ -66,26 +73,42 @@ const VoiceInput = () => {
     try {
       await Voice.start('en-US');
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
+
+  // const _continueRecognizing = async () => {
+  //   try {
+  //     await Voice.start('en-US');
+  //   } catch (e) {
+  //     // console.error(e);
+  //   }
+  // };
 
   const _stopRecognizing = async () => {
     try {
       await Voice.stop();
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
     setStarted('');
+    setEnd('');
+    console.log("textSegments: ", textSegments)
   };
 
   const _cancelRecognizing = async () => {
     try {
       await Voice.cancel();
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
+  
+  let displayText = (
+    started != ''
+    ? [...textSegments].join(' ') + ' ' + partialResults[0]
+    : [...textSegments].join(' ')
+  );
 
   const _destroyRecognizer = async () => {
     try {
@@ -99,20 +122,22 @@ const VoiceInput = () => {
     setResults([]);
     setPartialResults([]);
     setEnd('');
+    setTextSegments([]);
   };
+
+
+  console.log('displayText:', displayText)
 
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Custom Test Creator</Text>
         <Text style={styles.instructions}> Press the button and start speaking.</Text>
         <Text style={styles.stat}>{error}</Text>
-        <ScrollText text={results.length != 0 ? results[0] : partialResults} fontSize={ 32 } />
+        {/* <ScrollText text={results.length != 0 ? results[0] : partialResults} fontSize={ 24 } /> */}
+        <ScrollText text={displayText} fontSize={ 24 }/>
 
         <TouchableHighlight onPress={_startRecognizing}>
           <Image style={styles.button} source={require('./button.png')} />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={_stopRecognizing}>
-          <Text style={styles.action}>Stop</Text>
         </TouchableHighlight>
         <TouchableHighlight onPress={_destroyRecognizer}>
           <Text style={styles.action}>Delete</Text>
@@ -131,6 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    width: '100%',
   },
   welcome: {
     fontSize: 30,

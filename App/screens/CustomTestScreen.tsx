@@ -13,29 +13,19 @@ const CustomTestScreen = () => {
 
 
     return (
-        <>
+        <View style={styles.container}>
             <VoiceInput />
             <Button>Finished? Click here</Button>
-            <Button>Or click here!</Button>
-        </>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-
     container: {
-        // justifyContent: 'center',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'yellow'
-    },
-    testWords: {
-        padding: 10,
-
-    },
-    text: {
-        fontSize: 24,
-        fontWeight: 'bold'
-    },
+    }
 })
 
 export default CustomTestScreen

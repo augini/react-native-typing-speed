@@ -30,10 +30,10 @@ const ScrollText: React.FC<TextProps> = ({ text, fontSize=14 }) => {
 const styles = StyleSheet.create({
   container: {
     height: 200,
-    width: '100%',
+    width: '95%',
     borderWidth: 1,
     borderColor: 'black',
-    overflow: 'scroll',
+    // overflow: 'scroll',
   }
 })
 
