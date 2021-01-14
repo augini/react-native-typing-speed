@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,6 +14,7 @@ import Voice, {
 } from '@react-native-community/voice';
 import TTText from './TTText';
 import ScrollText from './ScrollText';
+import { AppContext } from '../context/AppProvider';
 
 const VoiceInput = () => {
   const [recognized, setRecognized] = useState('');
@@ -22,36 +23,54 @@ const VoiceInput = () => {
   const [started, setStarted] = useState('');
   const [results, setResults] = useState([]) as any;
   const [partialResults, setPartialResults] = useState([]) as any;
+  const [textSegments, setTextSegments] = useState([]) as any;
 
+  const [context, setContext] = useContext(AppContext) as any;
+
+  useEffect(() => {
+    const { testTime } = context;
+    setContext({
+      difficulty: -1,
+      timer: testTime,
+      customText: [...textSegments].join(' '),
+    });
+  }, [textSegments]);
 
   Voice.onSpeechStart = (e: any) => {
-    console.log('onSpeechStart: ', e);
-    setStarted('√');
+    // console.log('onSpeechStart: ', e);
+    // setStarted('√');
   };
 
   Voice.onSpeechRecognized = (e: SpeechRecognizedEvent) => {
-    console.log('onSpeechRecognized: ', e);
+    // console.log('onSpeechRecognized: ', e);
     setRecognized('√');
   };
 
-//   Voice.onSpeechEnd = (e: any) => {
-//     console.log('onSpeechEnd: ', e);
-//     setEnd('√');
-//     setStarted('');
-//   };
+  Voice.onSpeechEnd = (e: any) => {
+    const { timer } = context;
+    // setContext({...context , customText: displayText});
+    // console.log('NEWCONTEXT: ', context)
+  };
 
   Voice.onSpeechError = (e: SpeechErrorEvent) => {
-    console.log('onSpeechError: ', e);
+    // console.log('onSpeechError: ', e);
     setError(JSON.stringify(e.error));
   };
 
   Voice.onSpeechResults = (e: SpeechResultsEvent) => {
-    console.log('onSpeechResults: ', e);
+    // console.log('onSpeechResults: ', e);
+    console.log('STARTING:')
+    setStarted('');
     setResults(e.value);
+    // console.log('results:', results);
+    if (e && e.value && e.value[0]) {
+      setTextSegments((textSegments : any) => [...textSegments, e.value![0]]);
+    }
   };
 
   Voice.onSpeechPartialResults = (e: SpeechResultsEvent) => {
-    console.log('onSpeechPartialResults: ', e);
+    setStarted('√');
+    // console.log('onSpeechPartialResults: ', e);
     setPartialResults(e.value);
   };
 
@@ -66,7 +85,7 @@ const VoiceInput = () => {
     try {
       await Voice.start('en-US');
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
@@ -74,18 +93,26 @@ const VoiceInput = () => {
     try {
       await Voice.stop();
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
     setStarted('');
+    setEnd('');
+    console.log("textSegments: ", textSegments)
   };
 
   const _cancelRecognizing = async () => {
     try {
       await Voice.cancel();
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
+  
+  let displayText = (
+    started != ''
+    ? [...textSegments].join(' ') + ' ' + partialResults[0]
+    : [...textSegments].join(' ')
+  );
 
   const _destroyRecognizer = async () => {
     try {
@@ -99,22 +126,24 @@ const VoiceInput = () => {
     setResults([]);
     setPartialResults([]);
     setEnd('');
+    setTextSegments([]);
   };
+
+
+  console.log('displayText:', displayText)
+
 
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Custom Test Creator</Text>
         <Text style={styles.instructions}> Press the button and start speaking.</Text>
         <Text style={styles.stat}>{error}</Text>
-        <ScrollText text={results.length != 0 ? results[0] : partialResults} fontSize={ 32 } />
+        <ScrollText text={displayText} fontSize={ 24 }/>
 
         <TouchableHighlight onPress={_startRecognizing}>
           <Image style={styles.button} source={require('./button.png')} />
         </TouchableHighlight>
-        <TouchableHighlight onPress={_stopRecognizing}>
-          <Text style={styles.action}>Stop</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={_destroyRecognizer}>
+        <TouchableHighlight onPress={_destroyRecognizer} style={styles.delete}>
           <Text style={styles.action}>Delete</Text>
         </TouchableHighlight>
       </View>
@@ -125,12 +154,17 @@ const styles = StyleSheet.create({
   button: {
     width: 70,
     height: 70,
+    marginVertical: 30,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+    width: '100%',
+  },
+  delete: {
+    marginBottom: 30,
   },
   welcome: {
     fontSize: 30,

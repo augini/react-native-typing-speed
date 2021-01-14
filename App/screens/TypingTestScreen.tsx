@@ -5,14 +5,17 @@ const randomWords = require('random-words');
 import TTTextInput from '../components/TTTextInput'
 import TTText from '../components/TTText'
 import TTTimer from '../components/TTTimer'
+import { AppContext } from '../context/AppProvider';
 
-interface TypingTestProps {
-  difficulty: number,
-  timer: number,
-}
+// interface TypingTestProps {
+//   difficulty: number,
+//   timer: number,
+// }
 
 
-const TypingTestScreen: React.FC<TypingTestProps> = ({ difficulty = 0, timer = 30 }) => {
+// const TypingTestScreen: React.FC<TypingTestProps> = ({ difficulty = 0, timer = 30 }) => {
+  const TypingTestScreen = () => {
+
   const [typedWords, setTypedWords] = useState<string[]>([])
   const [input, setInput] = useState<string>('')
   const [randomText, setRandomText] = useState<string>('')
@@ -20,10 +23,20 @@ const TypingTestScreen: React.FC<TypingTestProps> = ({ difficulty = 0, timer = 3
   const [wordIndex, setWordIndex] = useState<number>(0)
   const [wordError, setWordError] = useState<boolean>(false)
 
+  const [context, setContext] = useContext(AppContext) as any;
+  console.log('context: ', context)
+
+  const { difficulty, timer, customText } = context;
+
   useEffect(() => {
-    difficulty == 0
-      ? setRandomText(randomWords({ exactly: 300, maxLength: 5, join: ' ' }))
-      : setRandomText(randomWords({ exactly: 300, maxLength: 10, join: ' ' }))
+    // difficulty 0 = normal, 1 = hard, -1 = custom
+    if (customText != '') {
+      setRandomText(customText);
+    } else {
+      difficulty == 0
+        ? setRandomText(randomWords({ exactly: 300, maxLength: 5, join: ' ' }))
+        : setRandomText(randomWords({ exactly: 300, maxLength: 10, join: ' ' }));
+    }
   }, [])
 
   return (

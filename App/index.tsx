@@ -21,12 +21,13 @@ import StartScreen from './screens/StartScreen';
 import MainStack from './navigation/MainStack';
 // screen
 import TypingTestScreen from './screens/TypingTestScreen';
+import AppProvider from './context/AppProvider';
 
 const App = () => {
   return (
-    <>
+    <AppProvider>
       <MainStack />
-    </>
+    </AppProvider>
   );
 };
 
