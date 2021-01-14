@@ -1,17 +1,28 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 
 interface TextProps {
-  text: string,
+  text: string[],
   fontSize?: number,
-
+  typingWordIndex?: number,
+  wordError: boolean
 }
 
-const TTText: React.FC<TextProps> = ({ text, fontSize=14 }) => {
+const TTText: React.FC<TextProps> = ({ wordError, text, typingWordIndex = 0, fontSize = 14 }) => {
+
+  useEffect(() => {
+
+  }, [])
   return (
-    <View style={ styles.container }>
-      <Text>{ text }</Text>
-    </View>
+    <ScrollView style={[styles.container]}>
+      <Text style={{ fontSize }}>
+        {/* <Text style={{ color: 'red' }}>{typingWord + ' '}</Text> */}
+        {text.map(t => {
+          if (t == text[typingWordIndex]) return <Text style={{ color: wordError ? 'red' : 'green' }}>{t + ' '}</Text>
+          else return <Text>{t + ' '}</Text>
+        })}
+      </Text>
+    </ScrollView>
   )
 }
 

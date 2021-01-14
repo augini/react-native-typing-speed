@@ -7,20 +7,27 @@ interface TimerProps {
 }
 
 const TTTimer: React.FC<TimerProps> = ({ duration }) => (
-    <CountdownCircleTimer
-    
-    duration={ duration }
+  <CountdownCircleTimer
+    isPlaying
+    duration={duration}
     colors={[
       ['#004777', 0.4],
       ['#F7B801', 0.4],
       ['#A30000', 0.2],
     ]}
   >
-    {({ remainingTime, animatedColor }) => (
-      <Animated.Text style={{ color: animatedColor }}>
-        {remainingTime}
-      </Animated.Text>
-    )}
+    {({ remainingTime, animatedColor }) => {
+      // console.log(remainingTime)
+      if (remainingTime < 0) {
+        console.log('BANG')
+      }
+      return (
+        <Animated.Text style={{ color: animatedColor }}>
+          {remainingTime}
+        </Animated.Text>
+      )
+    }
+    }
   </CountdownCircleTimer>
 )
 
