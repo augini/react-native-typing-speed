@@ -18,13 +18,14 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import ResultScreen from './screens/ResultScreen';
 import StartScreen from './screens/StartScreen';
+import MainStack from './navigation/MainStack';
 // screen
 import TypingTestScreen from './screens/TypingTestScreen';
 
 const App = () => {
   return (
     <>
-      <ResultScreen />
+      <MainStack />
     </>
   );
 };
