@@ -30,14 +30,12 @@ import { AppContext } from '../context/AppProvider';
 
   useEffect(() => {
     // difficulty 0 = normal, 1 = hard, -1 = custom
-    if (customText != '') {
-      setRandomText(customText);
-    } else {
-      difficulty == 0
-        ? setRandomText(randomWords({ exactly: 300, maxLength: 5, join: ' ' }))
-        : setRandomText(randomWords({ exactly: 300, maxLength: 10, join: ' ' }));
+    switch (difficulty) {
+      case -1: setRandomText(customText); break;
+      case 0: setRandomText(randomWords({ exactly: 300, maxLength: 5, join: ' ' })); break;
+      case 1: setRandomText(randomWords({ exactly: 300, maxLength: 10, join: ' ' })); break;
     }
-  }, [])
+  }, []);
 
   return (
     <View>

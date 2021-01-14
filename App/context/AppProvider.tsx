@@ -7,7 +7,7 @@ const { Provider } = AppContext;
 const AppProvider: React.FC = ({ children }) => {
     const [state, setState] = useState({
         difficulty: 0,
-        timer: 30,
+        timer: 60,
         customText: '',
     });
 
