@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 
+import { displayWords } from '../screens/TypingTestScreen'
+
+
 interface TextProps {
-  text: string[],
+  wordsArr: displayWords[],
   fontSize?: number,
   typingWordIndex?: number,
   wordError: boolean
 }
 
-const TTText: React.FC<TextProps> = ({ wordError, text, typingWordIndex = 0, fontSize = 14 }) => {
+const TTText: React.FC<TextProps> = ({ wordError, wordsArr, typingWordIndex = 0, fontSize = 14 }) => {
 
   useEffect(() => {
 
@@ -16,10 +19,13 @@ const TTText: React.FC<TextProps> = ({ wordError, text, typingWordIndex = 0, fon
   return (
     <ScrollView style={[styles.container]}>
       <Text style={{ fontSize }}>
-        {/* <Text style={{ color: 'red' }}>{typingWord + ' '}</Text> */}
-        {text.map(t => {
-          if (t == text[typingWordIndex]) return <Text style={{ color: wordError ? 'red' : 'green' }}>{t + ' '}</Text>
-          else return <Text>{t + ' '}</Text>
+        {wordsArr.map((t: displayWords, index: number) => {
+          t.key = String(index)
+          // console.log(t.correct)
+          if (t.index == typingWordIndex) return <Text key={t.key} style={{ color: wordError ? 'red' : 'green' }}>{t.text + ' '}</Text>
+          else if (index < typingWordIndex) return <Text key={t.key} style={{ color: t.correct ? 'green' : 'red' }}>{t.text + ' '}</Text>
+          else return <Text key={t.key}>{t.text + ' '}</Text>
+
         })}
       </Text>
     </ScrollView>
