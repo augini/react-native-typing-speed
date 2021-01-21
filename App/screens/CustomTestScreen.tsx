@@ -9,7 +9,6 @@ const CustomTestScreen = ({ navigation }) => {
     const [testTime, setTestTime] = useState(30);
 
     const [context, setContext] = useContext(AppContext) as any;
-    console.log('context: ', context);
 
     const handleTestTime = () => {
         switch (testTime) {
@@ -30,6 +29,7 @@ const CustomTestScreen = ({ navigation }) => {
 
     const handleStartCustomTest = () => {
         const { customText } = context;
+        console.log('timer(screen): ', testTime);
         setContext({
             difficulty: -1,
             timer: testTime,
