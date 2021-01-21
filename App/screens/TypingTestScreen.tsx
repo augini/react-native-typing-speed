@@ -1,4 +1,10 @@
-import React, { useState, useContext, useEffect, Component } from 'react';
+import React, {
+  useState,
+  useRef,
+  useContext,
+  useEffect,
+  Component,
+} from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 const randomWords = require('random-words');
 
@@ -38,15 +44,29 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
   const [taps, setTaps] = useState<number>(0);
   const [testTimer, setTestTimer] = useState<number>(timer);
   const [editable, setEditable] = useState<boolean>(true);
+  //timer variables
+  const [num, setNum] = useState<number>(2);
+  let intervalRef = useRef<number | any>(10);
+
+  const decreaseNum = () => setNum((prev) => prev - 1);
+
+  //handle timer with useRef()
+  useEffect(() => {
+    if (num) {
+      intervalRef.current = setInterval(decreaseNum, 1000);
+    }
+
+    return () => clearInterval(intervalRef.current);
+  }, []);
 
   useEffect(() => {
     switch (difficulty) {
-      case -1: 
+      case -1:
         // console.log('customText: ', customText);
         // console.log('[customText]: ', [customText]);
-        handleRandomWords(customText.split(" "));
+        handleRandomWords(customText.split(' '));
         break;
-      case 0: 
+      case 0:
         handleRandomWords(randomWords({ exactly: 300, maxLength: 5 }));
         break;
       case 1:
@@ -117,15 +137,19 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
           </Text>
         </View>
 
-        <View style={{ margin: 5, marginLeft: 10 }}>
-          <TTTimer
-            duration={testTimer}
-            onFinish={() => true}
-            onPress={() => {
-              console.log('this is pressed');
-            }}
-            onComplete={handleComplete}
-          />
+        <View
+          style={{
+            margin: 5,
+            marginLeft: 10,
+            width: 30,
+            height: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 15,
+            borderColor: '#7f0f18',
+            borderWidth: 3,
+          }}>
+          <Text style={{ fontSize: 14 }}>{num}</Text>
         </View>
       </View>
       <TTTextInput
@@ -144,16 +168,7 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
           }
 
           if (text[text.length - 1] == ' ') {
-            setInput('');
-            setWordIndex(wordIndex + 1);
             setTypedWords([...typedWords, text]);
-            if (wordError) {
-              randomText[wordIndex].correct = false;
-            } else {
-              randomText[wordIndex].correct = true;
-            }
-            randomText[wordIndex].done = true;
-            setRandomText(randomText);
           }
         }}
         onSubmitEditing={() => {
@@ -163,6 +178,17 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
         editable={editable}
         onKeyPress={({ nativeEvent }) => {
           console.log(nativeEvent.key);
+          if (nativeEvent.key === ' ') {
+            setInput('');
+            setWordIndex(wordIndex + 1);
+            if (wordError) {
+              randomText[wordIndex].correct = false;
+            } else {
+              randomText[wordIndex].correct = true;
+            }
+            randomText[wordIndex].done = true;
+            setRandomText(randomText);
+          }
         }}
       />
       <RestartButton />

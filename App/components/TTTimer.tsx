@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 interface TimerProps {
   duration: number;
   onFinish: () => any;
-  onPress: () => any;
+  onPress?: () => any;
   onComplete?: () => void;
 }
 
@@ -21,7 +21,6 @@ const TTTimer: React.FC<TimerProps> = ({
   return (
     <TouchableOpacity
       onPress={() => {
-        onPress();
         setTimer(30);
       }}>
       <CountdownCircleTimer

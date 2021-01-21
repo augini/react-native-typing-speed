@@ -1,6 +1,12 @@
 import React from 'react';
 import { TextInput, View, StyleSheet } from 'react-native';
 
+type NodeHandle = number;
+export interface TextInputKeyPressEventData {
+  key: string;
+}
+export interface NativeSyntheticEvent<T>
+  extends React.BaseSyntheticEvent<T, NodeHandle, NodeHandle> {}
 interface textInputProps {
   numberOfLines?: number;
   placeholder: string;
@@ -9,9 +15,9 @@ interface textInputProps {
   onSubmitEditing: any;
   inputValue: string;
   editable: boolean;
-  onKeyPress:
-    | ((e: NativeSyntheticEvent<TextInputKeyPressEventData>) => void)
-    | undefined;
+  onKeyPress: (
+    e: NativeSyntheticEvent<TextInputKeyPressEventData>,
+  ) => void | undefined;
 }
 
 const TTTextInput: React.FC<textInputProps> = ({
