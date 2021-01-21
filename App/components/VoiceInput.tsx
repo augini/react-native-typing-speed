@@ -26,9 +26,10 @@ const VoiceInput = () => {
   const [textSegments, setTextSegments] = useState([]) as any;
 
   const [context, setContext] = useContext(AppContext) as any;
+  const { testTime } = context;
 
   useEffect(() => {
-    const { testTime } = context;
+    console.log('timer(input): ', testTime);
     setContext({
       difficulty: -1,
       timer: testTime,
@@ -89,6 +90,14 @@ const VoiceInput = () => {
     }
   };
 
+  // const _continueRecognizing = async () => {
+  //   try {
+  //     await Voice.start('en-US');
+  //   } catch (e) {
+  //     // console.error(e);
+  //   }
+  // };
+
   const _stopRecognizing = async () => {
     try {
       await Voice.stop();
@@ -131,7 +140,6 @@ const VoiceInput = () => {
 
 
   console.log('displayText:', displayText)
-
 
     return (
       <View style={styles.container}>

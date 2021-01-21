@@ -40,12 +40,23 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
   const [editable, setEditable] = useState<boolean>(true);
 
   useEffect(() => {
-    difficulty == 0
-      ? handleRandomWords(randomWords({ exactly: 300, maxLength: 5 }))
-      : handleRandomWords(randomWords({ exactly: 300, maxLength: 10 }));
+    switch (difficulty) {
+      case -1: 
+        // console.log('customText: ', customText);
+        // console.log('[customText]: ', [customText]);
+        handleRandomWords(customText.split(" "));
+        break;
+      case 0: 
+        handleRandomWords(randomWords({ exactly: 300, maxLength: 5 }));
+        break;
+      case 1:
+        handleRandomWords(randomWords({ exactly: 300, maxLength: 10 }));
+        break;
+    }
   }, []);
 
   const handleRandomWords = (randomWordsArry: string[]) => {
+    console.log('randomWordsArry: ', randomWordsArry);
     let displayWordsStructure = { text: '', done: false, correct: false };
     setRandomText(
       randomWordsArry.map((w: string, index) => {
