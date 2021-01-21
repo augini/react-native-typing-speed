@@ -9,6 +9,9 @@ interface textInputProps {
   onSubmitEditing: any;
   inputValue: string;
   editable: boolean;
+  onKeyPress:
+    | ((e: NativeSyntheticEvent<TextInputKeyPressEventData>) => void)
+    | undefined;
 }
 
 const TTTextInput: React.FC<textInputProps> = ({
@@ -19,6 +22,7 @@ const TTTextInput: React.FC<textInputProps> = ({
   onSubmitEditing,
   inputValue,
   editable,
+  onKeyPress,
 }) => {
   return (
     <View
@@ -35,6 +39,7 @@ const TTTextInput: React.FC<textInputProps> = ({
         onSubmitEditing={onSubmitEditing}
         value={inputValue}
         editable={editable}
+        onKeyPress={onKeyPress}
       />
     </View>
   );

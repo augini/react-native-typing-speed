@@ -105,7 +105,8 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
             {'Mistakes: ' + String(typedWords.length)}
           </Text>
         </View>
-        <View style={{ margin: 5 }}>
+
+        <View style={{ margin: 5, marginLeft: 10 }}>
           <TTTimer
             duration={testTimer}
             onFinish={() => true}
@@ -149,6 +150,9 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
           console.log('RETURN PRESSED');
         }}
         editable={editable}
+        onKeyPress={({ nativeEvent }) => {
+          console.log(nativeEvent.key);
+        }}
       />
       <RestartButton />
     </View>
@@ -160,7 +164,7 @@ export default TypingTestScreen;
 const styles = StyleSheet.create({
   dataContainer: {
     paddingLeft: 10,
-    flex: 0.9,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
