@@ -7,9 +7,15 @@ interface TimerProps {
   duration: number;
   onFinish: () => any;
   onPress: () => any;
+  onComplete?: () => void;
 }
 
-const TTTimer: React.FC<TimerProps> = ({ duration, onFinish, onPress }) => {
+const TTTimer: React.FC<TimerProps> = ({
+  duration,
+  onFinish,
+  onPress,
+  onComplete,
+}) => {
   const [timer, setTimer] = useState<number>(duration);
 
   return (
@@ -19,6 +25,9 @@ const TTTimer: React.FC<TimerProps> = ({ duration, onFinish, onPress }) => {
         setTimer(30);
       }}>
       <CountdownCircleTimer
+        size={42}
+        strokeWidth={4}
+        onComplete={onComplete}
         isPlaying
         duration={timer}
         colors={[

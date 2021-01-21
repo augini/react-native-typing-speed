@@ -25,21 +25,19 @@ interface TypingTestProps {
   timer: number;
 }
 
-// const TypingTestScreen: React.FC<TypingTestProps> = ({ difficulty = 0, timer = 30 }) => {
 const TypingTestScreen: React.FC<TypingTestProps> = () => {
   //context data
   const [context, setContext] = useContext(AppContext) as any;
   const { difficulty, timer, customText } = context;
-
-  const [typedWords, setTypedWords] = useState<string[]>([]);
-  const [input, setInput] = useState<string>('');
-  const [randomText, setRandomText] = useState<displayWords[]>([]);
-  const [taps, setTaps] = useState<number>(0);
+  //word count states
   const [wordIndex, setWordIndex] = useState<number>(0);
   const [wordError, setWordError] = useState<boolean>(false);
+  const [input, setInput] = useState<string>('');
+  const [typedWords, setTypedWords] = useState<string[]>([]);
+  const [randomText, setRandomText] = useState<displayWords[]>([]);
+  const [taps, setTaps] = useState<number>(0);
   const [testTimer, setTestTimer] = useState<number>(timer);
-
-  console.log('context: ', context);
+  const [editable, setEditable] = useState<boolean>(true);
 
   useEffect(() => {
     difficulty == 0
@@ -77,34 +75,61 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
     );
   };
 
+  const handleComplete = () => {
+    setEditable(false);
+  };
+
   return (
     <View>
-      <Text>Typing Test</Text>
-      <Text>{'tapCount: ' + String(taps)}</Text>
-      <Text>{'wordCount: ' + String(typedWords.length)}</Text>
-      <TTTimer
-        duration={testTimer}
-        onFinish={() => true}
-        onPress={() => {
-          console.log('this is pressed');
-        }}
-      />
       <TTText
         wordsArr={randomText}
-        fontSize={24}
+        fontSize={20}
         typingWordIndex={wordIndex}
         wordError={wordError}
       />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingRight: 20,
+        }}>
+        <View style={styles.dataContainer}>
+          <Text style={styles.text}>{'Tap: ' + String(taps)}</Text>
+          <Text style={styles.text}>
+            {'Words: ' + String(typedWords.length)}
+          </Text>
+          <Text style={[styles.text, { color: 'green' }]}>
+            {'Correct: ' + String(typedWords.length)}
+          </Text>
+          <Text style={[styles.text, { color: 'red' }]}>
+            {'Mistakes: ' + String(typedWords.length)}
+          </Text>
+        </View>
+        <View style={{ margin: 5 }}>
+          <TTTimer
+            duration={testTimer}
+            onFinish={() => true}
+            onPress={() => {
+              console.log('this is pressed');
+            }}
+            onComplete={handleComplete}
+          />
+        </View>
+      </View>
       <TTTextInput
         inputValue={input}
         autoFocus={true}
         numberOfLines={1}
-        placeholder="start typing ... "
+        placeholder="Start typing ... "
         onChangeText={(text) => {
           setInput(text);
           setTaps(taps + 1);
-          if (text != randomText[wordIndex].text) setWordError(true);
-          else setWordError(false);
+          //handle error || true case
+          if (randomText[wordIndex].text.includes(text, 0)) {
+            setWordError(false);
+          } else {
+            setWordError(true);
+          }
 
           if (text[text.length - 1] == ' ') {
             setInput('');
@@ -112,11 +137,10 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
             setTypedWords([...typedWords, text]);
             if (wordError) {
               randomText[wordIndex].correct = false;
-              randomText[wordIndex].done = true;
             } else {
               randomText[wordIndex].correct = true;
-              randomText[wordIndex].done = true;
             }
+            randomText[wordIndex].done = true;
             setRandomText(randomText);
           }
         }}
@@ -124,6 +148,7 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
           console.log(typedWords);
           console.log('RETURN PRESSED');
         }}
+        editable={editable}
       />
       <RestartButton />
     </View>
@@ -131,3 +156,16 @@ const TypingTestScreen: React.FC<TypingTestProps> = () => {
 };
 
 export default TypingTestScreen;
+
+const styles = StyleSheet.create({
+  dataContainer: {
+    paddingLeft: 10,
+    flex: 0.9,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 16,
+  },
+});
