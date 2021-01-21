@@ -26,7 +26,11 @@ interface TypingTestProps {
 }
 
 // const TypingTestScreen: React.FC<TypingTestProps> = ({ difficulty = 0, timer = 30 }) => {
-const TypingTestScreen = () => {
+const TypingTestScreen: React.FC<TypingTestProps> = () => {
+  //context data
+  const [context, setContext] = useContext(AppContext) as any;
+  const { difficulty, timer, customText } = context;
+
   const [typedWords, setTypedWords] = useState<string[]>([]);
   const [input, setInput] = useState<string>('');
   const [randomText, setRandomText] = useState<displayWords[]>([]);
@@ -35,10 +39,7 @@ const TypingTestScreen = () => {
   const [wordError, setWordError] = useState<boolean>(false);
   const [testTimer, setTestTimer] = useState<number>(timer);
 
-  const [context, setContext] = useContext(AppContext) as any;
   console.log('context: ', context);
-
-  const { difficulty, timer, customText } = context;
 
   useEffect(() => {
     difficulty == 0
