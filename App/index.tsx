@@ -15,35 +15,23 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
-import Blink from './components/Blink';
-import Hello from './components/Hello';
-import FetchExample from './components/Networking'
-import CustomTestScreen from './screens/CustomTestScreen';
-
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import ResultScreen from './screens/ResultScreen';
+import StartScreen from './screens/StartScreen';
+import MainStack from './navigation/MainStack';
 // screen
-import TypingTestScreen from './screens/TypingTestScreen'
-
-export interface User {
-  id: string;
-  name: string;
-  city: string;
-}
-
-let users: User[] = [
-  { id: '2134', name: 'user 1', city: 'Tokyo' },
-  { id: '434', name: "user 2", city: 'Seoul' },
-  { id: '434fs', name: "user 3", city: 'Incheon' }
-]
+import TypingTestScreen from './screens/TypingTestScreen';
+import AppProvider from './context/AppProvider';
 
 const App = () => {
   return (
-    <>
-        <CustomTestScreen />
-      
-    </>
+    <AppProvider>
+      <MainStack />
+    </AppProvider>
   );
 };
+
+export default App;
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -83,5 +71,3 @@ const styles = StyleSheet.create({
     textAlign: 'right',
   },
 });
-
-export default App;

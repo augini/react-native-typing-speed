@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -14,6 +14,7 @@ import Voice, {
 } from '@react-native-community/voice';
 import TTText from './TTText';
 import ScrollText from './ScrollText';
+import { AppContext } from '../context/AppProvider';
 
 const VoiceInput = () => {
   const [recognized, setRecognized] = useState('');
@@ -23,6 +24,20 @@ const VoiceInput = () => {
   const [results, setResults] = useState([]) as any;
   const [partialResults, setPartialResults] = useState([]) as any;
   const [textSegments, setTextSegments] = useState([]) as any;
+<<<<<<< HEAD
+=======
+
+  const [context, setContext] = useContext(AppContext) as any;
+
+  useEffect(() => {
+    const { testTime } = context;
+    setContext({
+      difficulty: -1,
+      timer: testTime,
+      customText: [...textSegments].join(' '),
+    });
+  }, [textSegments]);
+>>>>>>> master
 
   Voice.onSpeechStart = (e: any) => {
     // console.log('onSpeechStart: ', e);
@@ -34,11 +49,11 @@ const VoiceInput = () => {
     setRecognized('√');
   };
 
-//   Voice.onSpeechEnd = (e: any) => {
-//     console.log('onSpeechEnd: ', e);
-//     setEnd('√');
-//     setStarted('');
-//   };
+  Voice.onSpeechEnd = (e: any) => {
+    const { timer } = context;
+    // setContext({...context , customText: displayText});
+    // console.log('NEWCONTEXT: ', context)
+  };
 
   Voice.onSpeechError = (e: SpeechErrorEvent) => {
     // console.log('onSpeechError: ', e);
@@ -128,18 +143,29 @@ const VoiceInput = () => {
 
   console.log('displayText:', displayText)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Custom Test Creator</Text>
         <Text style={styles.instructions}> Press the button and start speaking.</Text>
         <Text style={styles.stat}>{error}</Text>
+<<<<<<< HEAD
         {/* <ScrollText text={results.length != 0 ? results[0] : partialResults} fontSize={ 24 } /> */}
+=======
+>>>>>>> master
         <ScrollText text={displayText} fontSize={ 24 }/>
 
         <TouchableHighlight onPress={_startRecognizing}>
           <Image style={styles.button} source={require('./button.png')} />
         </TouchableHighlight>
+<<<<<<< HEAD
         <TouchableHighlight onPress={_destroyRecognizer}>
+=======
+        <TouchableHighlight onPress={_destroyRecognizer} style={styles.delete}>
+>>>>>>> master
           <Text style={styles.action}>Delete</Text>
         </TouchableHighlight>
       </View>
@@ -150,6 +176,7 @@ const styles = StyleSheet.create({
   button: {
     width: 70,
     height: 70,
+    marginVertical: 30,
   },
   container: {
     flex: 1,
@@ -157,6 +184,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
     width: '100%',
+<<<<<<< HEAD
+=======
+  },
+  delete: {
+    marginBottom: 30,
+>>>>>>> master
   },
   welcome: {
     fontSize: 30,
